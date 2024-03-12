@@ -1,4 +1,4 @@
-  var Webflow = Webflow || [];
+ var Webflow = Webflow || [];
   Webflow.push(function () {
     const offerTable = document.getElementById("offer_table"),
       offerTableDataSec = document.getElementById("today_offer_data"),
@@ -7,7 +7,7 @@
     const startDate = moment(offerDateSec.querySelector(".startdate-expo")?.innerHTML, "MMMM DD,YYYY"),
       endDate = moment(offerDateSec.querySelector(".enddate-expo")?.innerHTML, "MMMM DD,YYYY");
 
-    offerTableDataSecItem.forEach((e) => {
+    offerTableDataSecItem.forEach((e,i) => {
       const postDate = moment(e.querySelector(".offer-created-date")?.innerHTML, "MMMM DD,YYYY");
       var stDuration = postDate.diff(startDate, 'days'),
         endDuration = endDate.diff(postDate, 'days');
@@ -39,7 +39,7 @@
         all_daily_emails.push(e.innerHTML);
       });
       var data = [];
-      offerTable.querySelectorAll(".w-dyn-item").forEach((e) => {
+      offerTableDataSecItem.forEach((e) => {
         let allRowData = e.querySelectorAll("div");
         data.push({
           id: parseInt(Number(allRowData[0].innerHTML.toLowerCase().trim())),
@@ -323,4 +323,3 @@
       }
     }
   });
-
