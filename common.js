@@ -1,5 +1,6 @@
-  var Webflow = Webflow || [];
+ var Webflow = Webflow || [];
   Webflow.push(function () {
+    var wheelSpin = false;
     const offerTable = document.getElementById("offer_table"),
       offerTableDataSec = document.getElementById("today_offer_data"),
       offerDateSec = document.getElementById("expo-west-valid-date");
@@ -123,7 +124,7 @@
               // offerTable.remove();
               // offerTableDataSec.remove();
               //modal.remove();
-               // wheelChart.remove();
+              // wheelChart.remove();
               wheelChart.parentElement.classList.add("show_error");
               wheelChart.parentElement.classList.add('inactive');
               offerTakenModal.classList.add("active");
@@ -293,6 +294,7 @@
         if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0) {
           wheelChart.parentElement.classList.add('inactive');
         } else {
+          wheelSpin = true;
           container.on("click", spin);
         }
 
@@ -301,38 +303,41 @@
           wheelChart.classList.add("wait");
           if (oldpick.length == prizes.length) {
             container.on("click", null);
-            allOfferEndModal.classList.add('active');
+            //allOfferEndModal.classList.add('active');
             wheelChart.parentElement.classList.add('inactive');
             return;
           }
-          var ps = 360 / prizes.length,
-            rng = Math.floor(Math.random() * 1440 + 360);
-          rotation = Math.round(rng / ps) * ps;
-          picked = Math.round(prizes.length - (rotation % 360) / ps);
-          picked = picked >= prizes.length ? picked % prizes.length : picked;
-          if (oldpick.indexOf(picked) !== -1) {
-            d3.select(this).call(spin);
-            return;
-          } else {
-            oldpick.push(picked);
+          if (wheelSpin) {
+            wheelSpin = false;
+            var ps = 360 / prizes.length,
+              rng = Math.floor(Math.random() * 1440 + 360);
+            rotation = Math.round(rng / ps) * ps;
+            picked = Math.round(prizes.length - (rotation % 360) / ps);
+            picked = picked >= prizes.length ? picked % prizes.length : picked;
+            if (oldpick.indexOf(picked) !== -1) {
+              d3.select(this).call(spin);
+              return;
+            } else {
+              oldpick.push(picked);
+            }
+            rotation += 0 - Math.round(ps / 2);
+            vis
+              .transition()
+              .duration(3000)
+              .attrTween("transform", rotTween)
+              .each("end", function () {
+                wheelChart.classList.add("complete");
+                d3.select(
+                  ".slice:nth-child(" + (picked + 1) + ")"
+                )[0][0].classList.add("selected");
+                oldrotation = rotation;
+                modal.classList.add("show");
+                document.getElementById("mce-OFFERID").value = prizes[picked].id;
+                document.getElementById("mce-OFFERNAME").value = prizes[picked].offer;
+                document.getElementById("data-user-name").innerHTML = prizes[picked].offer;
+                // console.log(prizes);
+              });
           }
-          rotation += 0 - Math.round(ps / 2);
-          vis
-            .transition()
-            .duration(3000)
-            .attrTween("transform", rotTween)
-            .each("end", function () {
-              wheelChart.classList.add("complete");
-              d3.select(
-                ".slice:nth-child(" + (picked + 1) + ")"
-              )[0][0].classList.add("selected");
-              oldrotation = rotation;
-              modal.classList.add("show");
-              document.getElementById("mce-OFFERID").value = prizes[picked].id;
-              document.getElementById("mce-OFFERNAME").value = prizes[picked].offer;
-              document.getElementById("data-user-name").innerHTML = prizes[picked].offer;
-              // console.log(prizes);
-            });
         }
         function rotTween() {
           var i = d3.interpolate(oldrotation % 360, rotation);
