@@ -11,7 +11,7 @@ var Webflow = Webflow || [];
       const postDate = moment(e.querySelector(".offer-created-date")?.innerHTML, "MMMM DD,YYYY");
       var stDuration = postDate.diff(startDate, 'days'),
         endDuration = endDate.diff(postDate, 'days');
-      //console.log(stDuration, endDuration);
+      console.log(stDuration, endDuration);
       if (isNaN(stDuration) || isNaN(endDuration)) {
         e.remove();
       }
@@ -24,6 +24,7 @@ var Webflow = Webflow || [];
     })
 
     function offer() {
+console.log("offer call");
       document.querySelector(".west-expo-block-right").style.opacity = 1;
       const modal = document.getElementById("form_modal"),
         wheelChart = document.getElementById("chart"),
@@ -304,6 +305,7 @@ var Webflow = Webflow || [];
               document.getElementById("mce-OFFERID").value = prizes[picked].id;
               document.getElementById("mce-OFFERNAME").value = prizes[picked].offer;
               document.getElementById("data-user-name").innerHTML = prizes[picked].offer;
+              console.log(prizes);
             });
         }
         function rotTween() {
