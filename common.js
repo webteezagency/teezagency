@@ -1,6 +1,6 @@
  var Webflow = Webflow || [];
   Webflow.push(function () {
-    var wheelSpin = false, timeExpire = true;
+    var wheelSpin = false, timeExpire = false;
     const offerTable = document.getElementById("offer_table"),
       offerTableDataSec = document.getElementById("today_offer_data"),
       offerDateSec = document.getElementById("expo-west-valid-date");
