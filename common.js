@@ -27,7 +27,7 @@
       })
     }
     else {
-       wheelSpin = true;
+      wheelSpin = true;
       offer();
     }
     function offer() {
@@ -91,7 +91,7 @@
         }
       });
 
-      console.log(data.length);
+      //console.log(data.length);
       if (data.length != 0) {
         resetWheel();
       } else {
@@ -293,10 +293,10 @@
           });
         }
 
-        if (oldpick.length == prizes.length && oldpick.length!=0) {
+        if (oldpick.length == prizes.length && oldpick.length != 0) {
           allOfferEndModal.classList.add('active');
         }
-        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin && oldpick.length!=0) {
+        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin && oldpick.length != 0 && stDuration < 0 || endDuration < 0) {
           wheelChart.parentElement.classList.add('inactive');
         } else {
           wheelSpin = true;
