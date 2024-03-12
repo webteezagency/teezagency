@@ -4,22 +4,27 @@ var Webflow = Webflow || [];
       offerTableDataSec = document.getElementById("today_offer_data"),
       offerDateSec = document.getElementById("expo-west-valid-date");
 
-    const startDate = moment(offerDateSec.querySelector(".startdate-expo").innerHTML, "MMMM DD,YYYY"),
-      endDate = moment(offerDateSec.querySelector(".enddate-expo").innerHTML, "MMMM DD,YYYY");
+    const startDate = moment(offerDateSec.querySelector(".startdate-expo")?.innerHTML, "MMMM DD,YYYY"),
+      endDate = moment(offerDateSec.querySelector(".enddate-expo")?.innerHTML, "MMMM DD,YYYY");
 
     offerTableDataSec.querySelectorAll(".w-dyn-item").forEach((e) => {
-      const postDate = moment(e.querySelector(".offer-created-date").innerHTML, "MMMM DD,YYYY");
+      const postDate = moment(e.querySelector(".offer-created-date")?.innerHTML, "MMMM DD,YYYY");
       var stDuration = postDate.diff(startDate, 'days'),
         endDuration = endDate.diff(postDate, 'days');
-        console.log(stDuration,endDuration);
-      if (stDuration < 0 || endDuration < 0) {
+      //console.log(stDuration, endDuration);
+      if (isNaN(stDuration) || isNaN(endDuration)) {
         e.remove();
-        setTimeout(offer, 1500);
+      }
+      else {
+        if (stDuration < 0 || endDuration < 0) {
+          e.remove();
+          setTimeout(offer, 1500);
+        }
       }
     })
 
     function offer() {
-      document.querySelector(".west-expo-block-right").style.opacity = 1; 
+      document.querySelector(".west-expo-block-right").style.opacity = 1;
       const modal = document.getElementById("form_modal"),
         wheelChart = document.getElementById("chart"),
         infoModal = document.querySelector(".expo-validate-alert");
@@ -309,77 +314,4 @@ var Webflow = Webflow || [];
         }
       }
     }
-  });
-</script>
-
-<script>
-  var Webflow = Webflow || [];
-  Webflow.push(function () {
-    const offerTable = document.getElementById("offer_table"),
-      offerTableDataSec = document.getElementById("today_offer_data"),
-      offerDateSec = document.getElementById("expo-west-valid-date");
-
-      const startDate = moment(offerDateSec.querySelector(".startdate-expo").innerHTML, "MMMM DD,YYYY"),
-      endDate = moment(offerDateSec.querySelector(".enddate-expo").innerHTML, "MMMM DD,YYYY");
-
-    offerTableDataSec.querySelectorAll(".w-dyn-item").forEach((e) => {
-      const postDate = moment(e.querySelector(".offer-created-date").innerHTML, "MMMM DD,YYYY");
-      if (postDate.diff(startDate, 'days') < 0 || postDate.diff(endDate, 'days') > 0) {
-        e.remove();
-        setTimeout(offer, 1500);
-      }
-    })
-
-      function offer() { 
-    var all_daily_emails = [], data = [];
-    offerTableDataSec.querySelectorAll(".offer_user_emai").forEach((e) => {
-      all_daily_emails.push(e.innerHTML);
-    });
-    offerTable.querySelectorAll(".w-dyn-item").forEach((e) => {
-      let allRowData = e.querySelectorAll("div");
-      data.push({
-        id: parseInt(Number(allRowData[0].innerHTML.toLowerCase().trim())),
-        offer: allRowData[1].innerHTML
-          .toLowerCase()
-          .trim()
-          .replace(/&amp;/g, "&"),
-        TotalCount: parseInt(
-          Number(allRowData[2].innerHTML.toLowerCase().trim())
-        ),
-        CurrentCount: 0,
-        remaining: parseInt(
-          Number(allRowData[2].innerHTML.toLowerCase().trim())
-        ),
-      });
-    });
-
-    const offerTableId = offerTable.querySelectorAll(".offer_id"),
-      list = offerTableDataSec.querySelectorAll(".offer_id"),
-      offerTableCurrent = offerTable.querySelectorAll(".offer_current"),
-      offerTableRemaining = offerTable.querySelectorAll(".offer_remaining");
-    offerTableId.forEach((e, v) => {
-      var counter = 0;
-      const offerData = e.innerHTML.toLowerCase().trim();
-      for (var j = 0; j < list.length; j++) {
-        const tableData = list[j].innerHTML.toLowerCase().trim();
-        if (
-          tableData != "" ||
-          tableData != null ||
-          tableData != undefined ||
-          offerData != "" ||
-          offerData != null ||
-          offerData != undefined
-        ) {
-          if (tableData == offerData) {
-            data[v].CurrentCount = ++counter;
-            data[v].remaining = data[v].TotalCount - data[v].CurrentCount;
-
-            offerTableCurrent[v].innerHTML = data[v].CurrentCount;
-            offerTableRemaining[v].innerHTML = data[v].remaining;
-
-          }
-        }
-      }
-    });
-  }
   });
