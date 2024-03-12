@@ -293,10 +293,10 @@
           });
         }
 
-        if (oldpick.length == prizes.length) {
+        if (oldpick.length == prizes.length && oldpick.length!=0) {
           allOfferEndModal.classList.add('active');
         }
-        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin) {
+        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin && oldpick.length!=0) {
           wheelChart.parentElement.classList.add('inactive');
         } else {
           wheelSpin = true;
