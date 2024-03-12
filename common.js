@@ -1,4 +1,4 @@
- var Webflow = Webflow || [];
+  var Webflow = Webflow || [];
   Webflow.push(function () {
     const offerTable = document.getElementById("offer_table"),
       offerTableDataSec = document.getElementById("today_offer_data"),
@@ -7,7 +7,7 @@
     const startDate = moment(offerDateSec.querySelector(".startdate-expo")?.innerHTML, "MMMM DD,YYYY"),
       endDate = moment(offerDateSec.querySelector(".enddate-expo")?.innerHTML, "MMMM DD,YYYY");
 
-    offerTableDataSecItem.forEach((e,i) => {
+    offerTableDataSecItem.forEach((e, i) => {
       const postDate = moment(e.querySelector(".offer-created-date")?.innerHTML, "MMMM DD,YYYY");
       var stDuration = postDate.diff(startDate, 'days'),
         endDuration = endDate.diff(postDate, 'days');
@@ -18,7 +18,6 @@
       else {
         if (stDuration < 0 || endDuration < 0) {
           e.remove();
-          setTimeout(offer, 1500);
         }
       }
 
@@ -28,18 +27,26 @@
     })
 
     function offer() {
-      console.log("spinner_call");
+      //console.log("spinner_call");
       document.querySelector(".west-expo-block-right").style.opacity = 1;
       const modal = document.getElementById("form_modal"),
         wheelChart = document.getElementById("chart"),
-        infoModal = document.querySelector(".expo-validate-alert");
+        infoModal = document.querySelector(".expo-validate-alert"),
+        offerExpireModal =document.querySelector(".offer-validate-exp");
+        
+        if(offerTableDataSec.querySelectorAll(".w-dyn-item").length==0){
+          offerExpireModal.classList.add('active');
+        }
+        else{
+          offerExpireModal.remove();
+        }
 
       var all_daily_emails = [];
       offerTableDataSec.querySelectorAll(".offer_user_emai").forEach((e) => {
         all_daily_emails.push(e.innerHTML);
       });
       var data = [];
-      offerTableDataSecItem.forEach((e) => {
+      offerTable.querySelectorAll(".w-dyn-item").forEach((e) => {
         let allRowData = e.querySelectorAll("div");
         data.push({
           id: parseInt(Number(allRowData[0].innerHTML.toLowerCase().trim())),
@@ -101,7 +108,7 @@
           wheelChart.querySelector(".chartsvg").remove();
         }
         rotator(data);
-        
+
         offerTable.remove();
         offerTableDataSec.remove();
         offerDateSec.remove();
