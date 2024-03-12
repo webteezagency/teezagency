@@ -299,6 +299,7 @@
         if (oldpick.length == prizes.length && oldpick.length != 0) {
           allOfferEndModal.classList.add('active');
         }
+       console.log(oldpick.length,prizes.length,offerTableDataSec.querySelectorAll(".w-dyn-item").length,wheelSpin,timeExpire);
         if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin && oldpick.length != 0 && timeExpire) {
           wheelChart.parentElement.classList.add('inactive');
         } else {
