@@ -308,7 +308,6 @@
             return;
           }
           if (wheelSpin) {
-            wheelSpin = false;
             var ps = 360 / prizes.length,
               rng = Math.floor(Math.random() * 1440 + 360);
             rotation = Math.round(rng / ps) * ps;
@@ -336,6 +335,7 @@
                 document.getElementById("mce-OFFERNAME").value = prizes[picked].offer;
                 document.getElementById("data-user-name").innerHTML = prizes[picked].offer;
                 // console.log(prizes);
+                wheelSpin = false;
               });
           }
         }
