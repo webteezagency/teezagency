@@ -283,7 +283,7 @@
           });
         }
 
-        if (oldpick.length == prizes.length) {
+        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0) {
           wheelChart.parentElement.classList.add('inactive');
           return;
         } else {
