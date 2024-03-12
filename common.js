@@ -1,4 +1,4 @@
- var Webflow = Webflow || [];
+  var Webflow = Webflow || [];
   Webflow.push(function () {
     var wheelSpin = false;
     const offerTable = document.getElementById("offer_table"),
@@ -7,25 +7,29 @@
     const offerTableDataSecItem = offerTableDataSec.querySelectorAll(".w-dyn-item");
     const startDate = moment(offerDateSec.querySelector(".startdate-expo")?.innerHTML, "MMMM DD,YYYY"),
       endDate = moment(offerDateSec.querySelector(".enddate-expo")?.innerHTML, "MMMM DD,YYYY");
-
-    offerTableDataSecItem.forEach((e, i) => {
-      const postDate = moment(e.querySelector(".offer-created-date")?.innerHTML, "MMMM DD,YYYY");
-      var stDuration = postDate.diff(startDate, 'days'),
-        endDuration = endDate.diff(postDate, 'days');
-      //console.log(stDuration, endDuration);
-      if (isNaN(stDuration) || isNaN(endDuration)) {
-        e.remove();
-      }
-      else {
-        if (stDuration < 0 || endDuration < 0) {
+    if (offerTableDataSecItem.length) {
+      offerTableDataSecItem.forEach((e, i) => {
+        const postDate = moment(e.querySelector(".offer-created-date")?.innerHTML, "MMMM DD,YYYY");
+        var stDuration = postDate.diff(startDate, 'days'),
+          endDuration = endDate.diff(postDate, 'days');
+        //console.log(stDuration, endDuration);
+        if (isNaN(stDuration) || isNaN(endDuration)) {
           e.remove();
         }
-      }
-      if (i == offerTableDataSecItem.length - 1) {
-        offer();
-      }
-    })
-
+        else {
+          if (stDuration < 0 || endDuration < 0) {
+            e.remove();
+          }
+        }
+        if (i == offerTableDataSecItem.length - 1) {
+          offer();
+        }
+      })
+    }
+    else {
+      offer();
+      wheelSpin = true;
+    }
     function offer() {
       //console.log("spinner_call");
       document.querySelector(".west-expo-block-right").style.opacity = 1;
@@ -35,7 +39,7 @@
         offerDateExpireModal = document.querySelector(".offer-validate-exp"),
         offerTakenModal = document.querySelector(".offer_avail_msg_val");
 
-      if (offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0) {
+      if (offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin) {
         offerDateExpireModal.classList.add('active');
       }
       else {
@@ -87,6 +91,7 @@
         }
       });
 
+      console.log(data.length);
       if (data.length != 0) {
         resetWheel();
       } else {
@@ -291,7 +296,7 @@
         if (oldpick.length == prizes.length) {
           allOfferEndModal.classList.add('active');
         }
-        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0) {
+        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin) {
           wheelChart.parentElement.classList.add('inactive');
         } else {
           wheelSpin = true;
