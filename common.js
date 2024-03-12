@@ -1,6 +1,6 @@
-  var Webflow = Webflow || [];
+ var Webflow = Webflow || [];
   Webflow.push(function () {
-    var wheelSpin = false;
+    var wheelSpin = false, timeExpire = true;
     const offerTable = document.getElementById("offer_table"),
       offerTableDataSec = document.getElementById("today_offer_data"),
       offerDateSec = document.getElementById("expo-west-valid-date");
@@ -22,6 +22,9 @@
           }
         }
         if (i == offerTableDataSecItem.length - 1) {
+          if (offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0) {
+            timeExpire = true;
+          }
           offer();
         }
       })
@@ -296,7 +299,7 @@
         if (oldpick.length == prizes.length && oldpick.length != 0) {
           allOfferEndModal.classList.add('active');
         }
-        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin && oldpick.length != 0 && stDuration < 0 || endDuration < 0) {
+        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin && oldpick.length != 0 && timeExpire) {
           wheelChart.parentElement.classList.add('inactive');
         } else {
           wheelSpin = true;
