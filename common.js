@@ -1,4 +1,4 @@
-  var Webflow = Webflow || [];
+ var Webflow = Webflow || [];
   Webflow.push(function () {
     const offerTable = document.getElementById("offer_table"),
       offerTableDataSec = document.getElementById("today_offer_data"),
@@ -20,7 +20,6 @@
           e.remove();
         }
       }
-
       if (i == offerTableDataSecItem.length - 1) {
         offer();
       }
@@ -32,14 +31,14 @@
       const modal = document.getElementById("form_modal"),
         wheelChart = document.getElementById("chart"),
         infoModal = document.querySelector(".expo-validate-alert"),
-        offerExpireModal =document.querySelector(".offer-validate-exp");
-        
-        if(offerTableDataSec.querySelectorAll(".w-dyn-item").length==0){
-          offerExpireModal.classList.add('active');
-        }
-        else{
-          offerExpireModal.remove();
-        }
+        offerExpireModal = document.querySelector(".offer-validate-exp");
+
+      if (offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0) {
+        offerExpireModal.classList.add('active');
+      }
+      else {
+        offerExpireModal.remove();
+      }
 
       var all_daily_emails = [];
       offerTableDataSec.querySelectorAll(".offer_user_emai").forEach((e) => {
@@ -149,6 +148,7 @@
             oldpick.push(k);
           }
         }
+
         var svg = d3
           .select("#chart")
           .append("svg")
@@ -282,7 +282,14 @@
             }
           });
         }
-        container.on("click", spin);
+
+        if (oldpick.length == prizes.length) {
+          wheelChart.parentElement.classList.add('inactive');
+          return;
+        } else {
+          container.on("click", spin);
+        }
+
         function spin(d) {
           container.on("click", null);
           wheelChart.classList.add("wait");
