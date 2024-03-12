@@ -1,29 +1,34 @@
-var Webflow = Webflow || [];
+  var Webflow = Webflow || [];
   Webflow.push(function () {
     const offerTable = document.getElementById("offer_table"),
       offerTableDataSec = document.getElementById("today_offer_data"),
       offerDateSec = document.getElementById("expo-west-valid-date");
-
+    const offerTableDataSecItem = offerTableDataSec.querySelectorAll(".w-dyn-item");
     const startDate = moment(offerDateSec.querySelector(".startdate-expo")?.innerHTML, "MMMM DD,YYYY"),
       endDate = moment(offerDateSec.querySelector(".enddate-expo")?.innerHTML, "MMMM DD,YYYY");
 
-    offerTableDataSec.querySelectorAll(".w-dyn-item").forEach((e) => {
+    offerTableDataSecItem.forEach((e) => {
       const postDate = moment(e.querySelector(".offer-created-date")?.innerHTML, "MMMM DD,YYYY");
       var stDuration = postDate.diff(startDate, 'days'),
         endDuration = endDate.diff(postDate, 'days');
-      console.log(stDuration, endDuration);
+      //console.log(stDuration, endDuration);
       if (isNaN(stDuration) || isNaN(endDuration)) {
         e.remove();
       }
       else {
         if (stDuration < 0 || endDuration < 0) {
           e.remove();
+          setTimeout(offer, 1500);
         }
       }
+
+      if (i == offerTableDataSecItem.length - 1) {
+        offer();
+      }
     })
-   setTimeout(offer, 1500);
+
     function offer() {
-console.log("offer call");
+      console.log("spinner_call");
       document.querySelector(".west-expo-block-right").style.opacity = 1;
       const modal = document.getElementById("form_modal"),
         wheelChart = document.getElementById("chart"),
@@ -96,8 +101,10 @@ console.log("offer call");
           wheelChart.querySelector(".chartsvg").remove();
         }
         rotator(data);
-        // offerTable.remove();
-        // offerTableDataSec.remove();
+        
+        offerTable.remove();
+        offerTableDataSec.remove();
+        offerDateSec.remove();
       }
       modal.querySelector("input[type='submit']").addEventListener("click", (p) => {
         let frm_data = modal.querySelector("input[type='email']").value.trim();
@@ -304,7 +311,7 @@ console.log("offer call");
               document.getElementById("mce-OFFERID").value = prizes[picked].id;
               document.getElementById("mce-OFFERNAME").value = prizes[picked].offer;
               document.getElementById("data-user-name").innerHTML = prizes[picked].offer;
-              console.log(prizes);
+              // console.log(prizes);
             });
         }
         function rotTween() {
@@ -316,3 +323,4 @@ console.log("offer call");
       }
     }
   });
+
