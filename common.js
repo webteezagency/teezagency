@@ -27,8 +27,8 @@
       })
     }
     else {
+       wheelSpin = true;
       offer();
-      wheelSpin = true;
     }
     function offer() {
       //console.log("spinner_call");
