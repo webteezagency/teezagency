@@ -1,4 +1,4 @@
- var Webflow = Webflow || [];
+  var Webflow = Webflow || [];
   Webflow.push(function () {
     const offerTable = document.getElementById("offer_table"),
       offerTableDataSec = document.getElementById("today_offer_data"),
@@ -30,14 +30,15 @@
       document.querySelector(".west-expo-block-right").style.opacity = 1;
       const modal = document.getElementById("form_modal"),
         wheelChart = document.getElementById("chart"),
-        infoModal = document.querySelector(".expo-validate-alert"),
-        offerExpireModal = document.querySelector(".offer-validate-exp");
+        allOfferEndModal = document.querySelector(".expo-validate-alert"),
+        offerDateExpireModal = document.querySelector(".offer-validate-exp"),
+        offerTakenModal = document.querySelector(".offer_avail_msg_val");
 
       if (offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0) {
-        offerExpireModal.classList.add('active');
+        offerDateExpireModal.classList.add('active');
       }
       else {
-        offerExpireModal.remove();
+        offerDateExpireModal.remove();
       }
 
       var all_daily_emails = [];
@@ -92,7 +93,7 @@
       }
       function resetWheel() {
         wheelChart.parentElement.classList.remove('inactive');
-        infoModal.classList.remove('active');
+        allOfferEndModal.classList.remove('active');
         modal.classList.remove("show");
         wheelChart.classList.remove("complete");
         wheelChart.classList.remove("wait");
@@ -118,11 +119,14 @@
           for (var j = 0; j < all_daily_emails.length; j++) {
             if (all_daily_emails[j] == frm_data) {
               p.preventDefault();
-              offerTable.remove();
-              offerTableDataSec.remove();
-              modal.remove();
+              resetWheel();
+              // offerTable.remove();
+              // offerTableDataSec.remove();
+              //modal.remove();
+               // wheelChart.remove();
               wheelChart.parentElement.classList.add("show_error");
-              wheelChart.remove();
+              wheelChart.parentElement.classList.add('inactive');
+              offerTakenModal.classList.add("active");
             }
           }
         }
@@ -283,9 +287,11 @@
           });
         }
 
+        if (oldpick.length == prizes.length) {
+          allOfferEndModal.classList.add('active');
+        }
         if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0) {
           wheelChart.parentElement.classList.add('inactive');
-          return;
         } else {
           container.on("click", spin);
         }
@@ -295,7 +301,7 @@
           wheelChart.classList.add("wait");
           if (oldpick.length == prizes.length) {
             container.on("click", null);
-            infoModal.classList.add('active');
+            allOfferEndModal.classList.add('active');
             wheelChart.parentElement.classList.add('inactive');
             return;
           }
