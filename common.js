@@ -18,11 +18,10 @@ var Webflow = Webflow || [];
       else {
         if (stDuration < 0 || endDuration < 0) {
           e.remove();
-          setTimeout(offer, 1500);
         }
       }
     })
-
+   setTimeout(offer, 1500);
     function offer() {
 console.log("offer call");
       document.querySelector(".west-expo-block-right").style.opacity = 1;
