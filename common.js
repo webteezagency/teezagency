@@ -1,4 +1,4 @@
- var Webflow = Webflow || [];
+  var Webflow = Webflow || [];
   Webflow.push(function () {
     var wheelSpin = false, timeExpire = true;
     const offerTable = document.getElementById("offer_table"),
@@ -44,6 +44,7 @@
 
       if (offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin) {
         offerDateExpireModal.classList.add('active');
+        wheelChart.parentElement.classList.add('inactive');
       }
       else {
         offerDateExpireModal.remove();
@@ -299,8 +300,8 @@
         if (oldpick.length == prizes.length && oldpick.length != 0) {
           allOfferEndModal.classList.add('active');
         }
-       console.log(oldpick.length,prizes.length,offerTableDataSec.querySelectorAll(".w-dyn-item").length,wheelSpin,timeExpire);
-        if (oldpick.length == prizes.length || offerTableDataSec.querySelectorAll(".w-dyn-item").length == 0 && !wheelSpin && oldpick.length != 0 && timeExpire) {
+        console.log(oldpick.length,prizes.length,offerTableDataSec.querySelectorAll(".w-dyn-item").length,wheelSpin,timeExpire);
+        if (oldpick.length == prizes.length && !wheelSpin && timeExpire) {
           wheelChart.parentElement.classList.add('inactive');
         } else {
           wheelSpin = true;
